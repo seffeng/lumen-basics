@@ -1,0 +1,26 @@
+{
+    "name": "seffeng/lumen-basics",
+    "description": "Lumen extension basics",
+    "keywords": ["Lumen", "seffeng", "basics"],
+    "license": "MIT",
+    "homepage": "https://github.com/seffeng/lumen-basics",
+    "authors": [
+        {
+            "name": "seffeng",
+            "email": "save.zxf@gmail.com",
+            "homepage": "https://github.com/seffeng"
+        }
+    ],
+    "require": {
+        "php": "^7.2.5",
+        "laravel/lumen-framework": "^7.0",
+        "seffeng/laravel-helpers" : "^0.1|^1.0|^2.0",
+        "seffeng/laravel-rules" : "^0.1|^1.0|^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Seffeng\\Basics\\": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
