@@ -115,9 +115,9 @@ class FormRequest extends \Illuminate\Http\Request
     }
 
     /**
+     * Get custom messages for validator errors.
      *
-     * {@inheritDoc}
-     * @see \Illuminate\Foundation\Http\FormRequest::messages()
+     * @return array
      */
     public function messages()
     {
@@ -133,9 +133,9 @@ class FormRequest extends \Illuminate\Http\Request
     }
 
     /**
+     * Get custom attributes for validator errors.
      *
-     * {@inheritDoc}
-     * @see \Illuminate\Foundation\Http\FormRequest::attributes()
+     * @return array
      */
     public function attributes()
     {
