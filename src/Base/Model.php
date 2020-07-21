@@ -8,6 +8,14 @@ namespace Seffeng\Basics\Base;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 
+/**
+ *
+ * @author zxf
+ * @date   2020年7月21日
+ * @method static Model orderBy(Closure|Builder|Expression|string $column, string $direction = 'asc')
+ * @method static Model groupBy(array|string ...$groups)
+ * @method static \Illuminate\Contracts\Pagination\LengthAwarePaginator paginate(int|null $perPage = null, array $columns = ['*'], string $pageName = 'page', int|null $page = null)
+ */
 class Model extends \Illuminate\Database\Eloquent\Model
 {
     /**

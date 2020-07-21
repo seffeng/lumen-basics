@@ -127,7 +127,7 @@ class Service
      * @author zxf
      * @date    2020年6月8日
      * @param  array $fillable
-     * @return \Seffeng\Basics\Base\Service
+     * @return static
      */
     public function setFillable(array $fillable = [])
     {
