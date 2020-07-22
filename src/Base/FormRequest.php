@@ -58,6 +58,12 @@ class FormRequest extends \Illuminate\Http\Request
 
     /**
      *
+     * @var string|array
+     */
+    protected $groupBy;
+
+    /**
+     *
      * @var array
      */
     protected $messageBag;
@@ -91,6 +97,12 @@ class FormRequest extends \Illuminate\Http\Request
      * @var integer
      */
     protected $page = 1;
+
+    /**
+     *
+     * @var array
+     */
+    public $variables = [];
 
     /**
      * Determine if the user is authorized to make this request.
@@ -205,6 +217,30 @@ class FormRequest extends \Illuminate\Http\Request
     public function getOrderBy()
     {
         return $this->orderBy;
+    }
+
+    /**
+     *
+     * @author zxf
+     * @date   2020年7月22日
+     * @param  array|string $orderBy
+     * @return \Seffeng\Basics\Base\FormRequest
+     */
+    public function setGroupBy($groupBy)
+    {
+        $this->groupBy = $groupBy;
+        return $this;
+    }
+
+    /**
+     *
+     * @author zxf
+     * @date   2020年7月22日
+     * @return string|array
+     */
+    public function getGroupBy()
+    {
+        return $this->groupBy;
     }
 
     /**
@@ -428,5 +464,24 @@ class FormRequest extends \Illuminate\Http\Request
     public function getPage()
     {
         return $this->page;
+    }
+
+    /**
+     *
+     * @author zxf
+     * @date   2020年7月22日
+     * @return \Seffeng\Basics\Base\FormRequest
+     */
+    public function loadVariables()
+    {
+        $this->variables = [
+            'fillItems' => $this->getFillItems(),
+            'groupBy'   => $this->getGroupBy(),
+            'orderBy'   => $this->getOrderBy(),
+            'page'      => $this->getPage(),
+            'perPage'   => $this->getPerPage(),
+            'with'      => $this->getWith()
+        ];
+        return $this;
     }
 }
