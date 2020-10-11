@@ -5,7 +5,6 @@
  */
 namespace Seffeng\Basics\Base;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -23,7 +22,14 @@ class Model extends \Illuminate\Database\Eloquent\Model
      *
      * @var bool
      */
-    public $timestamps = false;
+    public $timestamps = true;
+
+    /**
+     * The storage format of the model's date columns.
+     *
+     * @var string
+     */
+    protected $dateFormat = 'U';
 
     /**
      * The table associated with the model.
@@ -59,42 +65,6 @@ class Model extends \Illuminate\Database\Eloquent\Model
      * @var string
      */
     const UPDATED_AT = 'updated_at';
-
-
-    /**
-     *
-     * {@inheritDoc}
-     * @see \Illuminate\Database\Eloquent\Model::performInsert()
-     */
-    protected function performInsert(Builder $query)
-    {
-        if (!$this->usesTimestamps()) {
-            $time = time();
-            if (!$this->exists && !is_null(static::CREATED_AT) && !$this->isDirty(static::CREATED_AT)) {
-                $this->{static::CREATED_AT} = $time;
-            }
-
-            if (!is_null(static::UPDATED_AT) && !$this->isDirty(static::UPDATED_AT)) {
-                $this->{static::UPDATED_AT} = $time;
-            }
-        }
-        return parent::performInsert($query);
-    }
-
-    /**
-     *
-     * {@inheritDoc}
-     * @see \Illuminate\Database\Eloquent\Model::performUpdate()
-     */
-    protected function performUpdate(Builder $query)
-    {
-        if (!$this->usesTimestamps()) {
-            if (!is_null(static::UPDATED_AT) && !$this->isDirty(static::UPDATED_AT)) {
-                $this->{static::UPDATED_AT} = time();
-            }
-        }
-        return parent::performUpdate($query);
-    }
 
     /**
      *
