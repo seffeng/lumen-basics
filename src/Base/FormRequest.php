@@ -32,6 +32,12 @@ class FormRequest extends \Illuminate\Http\Request
     protected $isCamel = false;
 
     /**
+     *  过滤前后空格
+     * @var boolean
+     */
+    protected $filter = true;
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -333,10 +339,12 @@ class FormRequest extends \Illuminate\Http\Request
     public function load(array $params)
     {
         if ($this->fillable) foreach ($this->fillable as $key) {
+            $value = Arr::get($params, $key);
+            $this->filter && is_string($value) && $value = trim($value);
             if ($this->isCamel) {
-                $this->fillItems[Str::snake($key)] = Arr::get($params, $key);
+                $this->fillItems[Str::snake($key)] = $value;
             }
-            $this->fillItems[$key] = Arr::get($params, $key);
+            $this->fillItems[$key] = $value;
         }
         return $this->fillItems;
     }
