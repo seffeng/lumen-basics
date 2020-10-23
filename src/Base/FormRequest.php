@@ -377,6 +377,9 @@ class FormRequest extends \Illuminate\Http\Request
     {
         if (array_search($key, $this->fillable) !== false) {
             $this->fillItems[$key] = $value;
+            if ($this->isCamel) {
+                $this->fillItems[Str::snake($key)] = $value;
+            }
             return true;
         }
         return false;
