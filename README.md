@@ -5,6 +5,9 @@
 ```shell
 # lumen7
 $ composer require seffeng/lumen-basics
+
+# lumen6
+$ composer require seffeng/lumen-basics=^0.*
 ```
 
 ### 目录说明

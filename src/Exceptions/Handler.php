@@ -5,7 +5,7 @@
  */
 namespace Seffeng\Basics\Exceptions;
 
-use Throwable;
+use Exception;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
 use Seffeng\Basics\Constants\ErrorConst;
 use Seffeng\Basics\Base\Response;
@@ -45,10 +45,10 @@ class Handler extends ExceptionHandler
     /**
      * Report or log an exception.
      *
-     * @param  Throwable  $exception
+     * @param  \Exception  $exception
      * @return void
      */
-    public function report(Throwable $exception)
+    public function report(Exception $exception)
     {
         parent::report($exception);
     }
@@ -57,10 +57,10 @@ class Handler extends ExceptionHandler
      * Render an exception into an HTTP response.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  Throwable  $exception
+     * @param  Exception  $exception
      * @return \Illuminate\Http\Response
      */
-    public function render($request, Throwable $exception)
+    public function render($request, Exception $exception)
     {
         return $this->renderException($request, $exception);
     }
@@ -69,7 +69,7 @@ class Handler extends ExceptionHandler
      * Render an exception into an HTTP response.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  Throwable  $e
+     * @param  Exception  $e
      * @return \Illuminate\Http\Response
      */
     public function renderException($request, $e)
