@@ -82,13 +82,18 @@ class Handler extends ExceptionHandler
                 'file' => $e->getFile(),
                 'line' => $e->getLine(),
             ] : [];
-            if ($this->isHttpException($e) && in_array($e->getStatusCode(), $this->errorClass::fetchItems())) {
-                $errorMessage = $this->errorClass::getError($e->getStatusCode());
-                $data = $this->errorClass::responseError($e->getStatusCode() > 0 ? $errorMessage : ($message ? $message : $errorMessage), $exception, $e->getStatusCode());
+
+            if ($this->isHttpException($e)) {
+                $errorCode = $e->getStatusCode() > 0 ? $e->getStatusCode() : $this->errorClass::DEFAULT;
             } else {
-                $errorMessage = $this->errorClass::getError($e->getCode());
-                $data = $this->errorClass::responseError($e->getCode() > 0 ? $errorMessage : ($message ? $message : $errorMessage), $exception);
+                $errorCode = $e->getCode() > 0 ? $e->getCode() : $this->errorClass::DEFAULT;
             }
+            if ($e instanceof BaseException) {
+                $data = $this->errorClass::responseError($message ? $message : $this->errorClass::getError($errorCode), $exception, $errorCode);
+            } else {
+                $data = $this->errorClass::responseError($this->errorClass::getError($errorCode), $exception, $errorCode);
+            }
+
             $response = new Response();
             return $response->setContent($data)->send();
         } else {

@@ -7,6 +7,7 @@ namespace Seffeng\Basics\Base;
 
 use Laravel\Lumen\Routing\Controller as BaseController;
 use Seffeng\Basics\Constants\ErrorConst;
+use Seffeng\Basics\Exceptions\BaseException;
 
 class Controller extends BaseController
 {
@@ -73,7 +74,8 @@ class Controller extends BaseController
     public function responseException($e)
     {
         $response = new Response();
-        $data = $this->errorClass::responseError($this->errorClass::getError(),
+        $message = ($e instanceof BaseException) ? $e->getMessage() : '';
+        $data = $this->errorClass::responseError($message ? $message : $this->errorClass::getError(),
         config('app.debug') ? [
             'message' => $e->getMessage(),
             'code' => $e->getCode(),
