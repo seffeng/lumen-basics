@@ -5,8 +5,10 @@
  */
 namespace Seffeng\Basics\Base;
 
+use Seffeng\Basics\Constants\TypeConst;
 use Seffeng\LaravelHelpers\Helpers\Str;
 use Seffeng\LaravelHelpers\Helpers\Arr;
+use Seffeng\LaravelHelpers\Helpers\Json;
 
 /**
  *
@@ -61,6 +63,18 @@ class FormRequest extends \Illuminate\Http\Request
      * @var string|array
      */
     protected $orderBy;
+
+    /**
+     * 排序请求参数，如：$_GET['orderBy']
+     * @var string
+     */
+    protected $orderByField = 'orderBy';
+
+    /**
+     * 数据表主键，非主键排序时追加主键排序
+     * @var string
+     */
+    protected $orderByPrimaryKey = 'id';
 
     /**
      *
@@ -182,7 +196,7 @@ class FormRequest extends \Illuminate\Http\Request
      * @author zxf
      * @date    2020年6月7日
      * @param  array $with
-     * @return \Seffeng\Basics\Base\FormRequest
+     * @return static
      */
     public function setWith(array $with)
     {
@@ -206,7 +220,7 @@ class FormRequest extends \Illuminate\Http\Request
      * @author zxf
      * @date    2020年6月7日
      * @param  array|string $orderBy
-     * @return \Seffeng\Basics\Base\FormRequest
+     * @return static
      */
     public function setOrderBy($orderBy)
     {
@@ -230,7 +244,7 @@ class FormRequest extends \Illuminate\Http\Request
      * @author zxf
      * @date   2020年7月22日
      * @param  array|string $orderBy
-     * @return \Seffeng\Basics\Base\FormRequest
+     * @return static
      */
     public function setGroupBy($groupBy)
     {
@@ -434,7 +448,7 @@ class FormRequest extends \Illuminate\Http\Request
      * @author zxf
      * @date    2020年6月7日
      * @param  int $perPage
-     * @return \Seffeng\Basics\Base\FormRequest
+     * @return static
      */
     public function setPerPage(int $perPage)
     {
@@ -458,7 +472,7 @@ class FormRequest extends \Illuminate\Http\Request
      * @author zxf
      * @date    2020年6月7日
      * @param  int $page
-     * @return \Seffeng\Basics\Base\FormRequest
+     * @return static
      */
     public function setPage(int $page)
     {
@@ -481,7 +495,7 @@ class FormRequest extends \Illuminate\Http\Request
      *
      * @author zxf
      * @date   2020年7月22日
-     * @return \Seffeng\Basics\Base\FormRequest
+     * @return static
      */
     public function loadVariables()
     {
@@ -494,5 +508,66 @@ class FormRequest extends \Illuminate\Http\Request
             'with'      => $this->getWith()
         ];
         return $this;
+    }
+
+    /**
+     *
+     * @author zxf
+     * @date   2020年12月7日
+     * @return static
+     */
+    public function sortable()
+    {
+        $orderBy = $this->getFillItems($this->orderByField);
+        $sort = (is_string($orderBy) && $orderBy !== '') ? Json::decode($orderBy) : [];
+        if ($sort) {
+            $key = $this->replaceSortKey(Arr::get($sort, 'key'));
+            $value = $this->replaceSortValue(strtoupper(Arr::get($sort, 'value')));
+            if ($key) {
+                $orderBy = [$key => $value];
+                $key !== $this->orderByPrimaryKey && $orderBy[$this->orderByPrimaryKey] = TypeConst::ORDERBY_DESC;
+                $this->setOrderBy($orderBy);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     *
+     * @author zxf
+     * @date   2020年12月7日
+     * @param string $key
+     * @return boolean
+     */
+    protected function replaceSortKey(string $key = null)
+    {
+        return (!is_null($key) && array_key_exists($key, $this->fetchSortKeyItems())) ? Arr::get($this->fetchSortKeyItems(), $key) : false;
+    }
+
+    /**
+     *
+     * @author zxf
+     * @date   2020年12月7日
+     * @param string $sort
+     * @return string
+     */
+    protected function replaceSortValue(string $sort = null)
+    {
+        return (!is_null($sort) && in_array($sort, [TypeConst::ORDERBY_ASC, TypeConst::ORDERBY_DESC])) ? $sort : TypeConst::ORDERBY_DESC;
+    }
+
+    /**
+     *
+     * @author zxf
+     * @date   2020年12月7日
+     * @return array
+     */
+    protected function fetchSortKeyItems()
+    {
+        return [
+            // '接收字段' => '数据库字段',
+            // 'userId' => 'id',
+            // 'createDate' => 'created_at'
+        ];
     }
 }
