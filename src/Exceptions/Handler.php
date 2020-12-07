@@ -83,9 +83,11 @@ class Handler extends ExceptionHandler
                 'line' => $e->getLine(),
             ] : [];
             if ($this->isHttpException($e) && in_array($e->getStatusCode(), $this->errorClass::fetchItems())) {
-                $data = $this->errorClass::responseError($message ? $message : $this->errorClass::getError($e->getStatusCode()), $exception, $e->getStatusCode());
+                $errorMessage = $this->errorClass::getError($e->getStatusCode());
+                $data = $this->errorClass::responseError($e->getStatusCode() > 0 ? $errorMessage : ($message ? $message : $errorMessage), $exception, $e->getStatusCode());
             } else {
-                $data = $this->errorClass::responseError($e->getCode() > 0 ? $this->errorClass::getError($e->getCode()) : $message, $exception);
+                $errorMessage = $this->errorClass::getError($e->getCode());
+                $data = $this->errorClass::responseError($e->getCode() > 0 ? $errorMessage : ($message ? $message : $errorMessage), $exception);
             }
             $response = new Response();
             return $response->setContent($data)->send();
