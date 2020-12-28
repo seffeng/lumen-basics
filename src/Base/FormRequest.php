@@ -513,6 +513,18 @@ class FormRequest extends \Illuminate\Http\Request
     /**
      *
      * @author zxf
+     * @date   2020年12月28日
+     * @return static
+     */
+    public function skipValidator()
+    {
+        $this->isPass = true;
+        return $this;
+    }
+
+    /**
+     *
+     * @author zxf
      * @date   2020年12月7日
      * @return static
      */
