@@ -69,19 +69,21 @@ class Controller extends BaseController
      * @author zxf
      * @date    2019年11月07日
      * @param  \Exception $e
+     * @param  array $headers
      * @return \Illuminate\Http\JsonResponse
      */
-    public function responseException($e)
+    public function responseException($e, array $headers = [])
     {
         $response = new Response();
         $message = ($e instanceof BaseException) ? $e->getMessage() : '';
         $data = $this->errorClass::responseError($message ? $message : $this->errorClass::getError(),
-        config('app.debug') ? [
-            'message' => $e->getMessage(),
-            'code' => $e->getCode(),
-            'file' => $e->getFile(),
-            'line' => $e->getLine(),
-        ] : []);
-        return $response->setContent($data)->send();
+            config('app.debug') ? [
+                'message' => $e->getMessage(),
+                'code' => $e->getCode(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+            ] : []);
+
+        return $response->setContent($data)->setHeaders($headers)->send();
     }
 }
