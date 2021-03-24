@@ -8,6 +8,8 @@ namespace Seffeng\Basics\Base;
 use Laravel\Lumen\Routing\Controller as BaseController;
 use Seffeng\Basics\Constants\ErrorConst;
 use Seffeng\Basics\Exceptions\BaseException;
+use Seffeng\LaravelHelpers\Helpers\Str;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class Controller extends BaseController
 {
@@ -61,7 +63,42 @@ class Controller extends BaseController
      */
     public function responseDownload($data, string $fileName, array $headers = [])
     {
-        return response()->streamDownload(function() use ($data) { echo $data; }, $fileName, $headers);
+        return $this->streamDownload(function() use ($data) { echo $data; }, $fileName, $headers);
+    }
+
+    /**
+     * Create a new streamed response instance as a file download.
+     *
+     * @param  \Closure  $callback
+     * @param  string|null  $name
+     * @param  array  $headers
+     * @param  string|null  $disposition
+     * @return \Symfony\Component\HttpFoundation\StreamedResponse
+     */
+    public function streamDownload($callback, $name = null, array $headers = [], $disposition = 'attachment')
+    {
+        $response = new StreamedResponse($callback, 200, $headers);
+
+        if (! is_null($name)) {
+            $response->headers->set('Content-Disposition', $response->headers->makeDisposition(
+                $disposition,
+                $name,
+                $this->fallbackName($name)
+            ));
+        }
+
+        return $response;
+    }
+
+    /**
+     * Convert the string to ASCII characters that are equivalent to the given name.
+     *
+     * @param  string  $name
+     * @return string
+     */
+    protected function fallbackName($name)
+    {
+        return str_replace('%', '', Str::ascii($name));
     }
 
     /**
