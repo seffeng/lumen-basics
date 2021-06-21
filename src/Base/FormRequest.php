@@ -8,7 +8,6 @@ namespace Seffeng\Basics\Base;
 use Seffeng\Basics\Constants\TypeConst;
 use Seffeng\LaravelHelpers\Helpers\Str;
 use Seffeng\LaravelHelpers\Helpers\Arr;
-use Seffeng\LaravelHelpers\Helpers\Json;
 
 /**
  *
@@ -523,23 +522,35 @@ class FormRequest extends \Illuminate\Http\Request
     }
 
     /**
-     *
+     * orderBy=-num；代表 num 降序
+     * orderBy=-num；代表 num 升序
+     * orderBy=-num,sort；代表 num 降序，sort 升序
      * @author zxf
-     * @date   2020年12月7日
+     * @date   2021年6月21日
      * @return static
      */
     public function sortable()
     {
         $orderBy = $this->getFillItems($this->orderByField);
-        $sort = (is_string($orderBy) && $orderBy !== '') ? Json::decode($orderBy) : [];
-        if ($sort) {
-            $key = $this->replaceSortKey(Arr::get($sort, 'key'));
-            $value = $this->replaceSortValue(strtoupper(Arr::get($sort, 'value')));
-            if ($key) {
-                $orderBy = [$key => $value];
-                $key !== $this->orderByPrimaryKey && $orderBy[$this->orderByPrimaryKey] = TypeConst::ORDERBY_DESC;
-                $this->setOrderBy($orderBy);
+        if (is_string($orderBy) && $orderBy !== '') {
+            $items = array_filter(array_unique(explode(',', str_replace(' ', '', $orderBy))));
+            $orderBy = [];
+            if ($items) {
+                foreach ($items as $item) {
+                    if ($item['0'] === '-') {
+                        $key = $this->replaceSortKey(substr($item, 1));
+                        $value = TypeConst::ORDERBY_DESC;
+                    } else {
+                        $key = $this->replaceSortKey($item);
+                        $value = TypeConst::ORDERBY_ASC;
+                    }
+                    $key && $orderBy[$key] = $value;
+                }
+                if (!array_key_exists($this->orderByPrimaryKey, $orderBy)) {
+                    $orderBy[$this->orderByPrimaryKey] = TypeConst::ORDERBY_DESC;
+                }
             }
+            count($orderBy) > 0 && $this->setOrderBy($orderBy);
         }
         return $this;
     }
@@ -554,18 +565,6 @@ class FormRequest extends \Illuminate\Http\Request
     protected function replaceSortKey(string $key = null)
     {
         return (!is_null($key) && array_key_exists($key, $this->fetchSortKeyItems())) ? Arr::get($this->fetchSortKeyItems(), $key) : false;
-    }
-
-    /**
-     *
-     * @author zxf
-     * @date   2020年12月7日
-     * @param string $sort
-     * @return string
-     */
-    protected function replaceSortValue(string $sort = null)
-    {
-        return (!is_null($sort) && in_array($sort, [TypeConst::ORDERBY_ASC, TypeConst::ORDERBY_DESC])) ? $sort : TypeConst::ORDERBY_DESC;
     }
 
     /**
