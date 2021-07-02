@@ -3,8 +3,11 @@
 ### 安装
 
 ```shell
-# lumen7
+# lumen7、lumen8
 $ composer require seffeng/lumen-basics
+
+# lumen6
+$ composer require seffeng/lumen-basics=^0.*
 ```
 
 ### 目录说明
@@ -124,3 +127,8 @@ class TestController extends Controller
     "message": "手机号格式错误！ 密码不能为空！"
 }
 ```
+
+### 更新日志
+
+[changelog](CHANGELOG.md)
+
