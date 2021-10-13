@@ -59,10 +59,10 @@ class ErrorConst
      *
      * @author zxf
      * @date   2019年10月19日
-     * @param int $code
+     * @param int|string $code
      * @return string
      */
-    public static function getError(int $code = null)
+    public static function getError($code = null)
     {
         is_null($code) && $code = static::DEFAULT;
         return Arr::get(static::fetchNameItems(), $code, '未定义错误代码：( '. $code .' )！');
@@ -121,10 +121,10 @@ class ErrorConst
      * @date    2019年10月28日
      * @param  string $message
      * @param  mixed $data
-     * @param  int $code
+     * @param  int|string $code
      * @return array
      */
-    public static function responseError(string $message, $data = [], int $code = null)
+    public static function responseError(string $message, $data = [], $code = null)
     {
         return [
             'status' => 'error',
