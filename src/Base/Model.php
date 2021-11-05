@@ -11,9 +11,35 @@ use Illuminate\Support\Facades\DB;
  *
  * @author zxf
  * @date   2020年7月21日
- * @method static Model orderBy(Closure|Builder|Expression|string $column, string $direction = 'asc')
+ * @method static Model create(array $attributes = [])
+ * @method static Model forceCreate(array $attributes)
  * @method static Model groupBy(array|string ...$groups)
+ * @method static Model latest($column = null)
+ * @method static Model oldest($column = null)
+ * @method static Model orWhere($column, $operator = null, $value = null)
+ * @method static Model orderBy(Closure|Builder|Expression|string $column, string $direction = 'asc')
+ * @method static Model where($column, $operator = null, $value = null, $boolean = 'and')
+ * @method static Model withCasts($casts)
+ * @method static Model withOnly($relations)
+ * @method static Model without($relations)
+ * @method static Model|mixed unless($value, $callback, $default = null)
+ * @method static Model|mixed when($value, $callback, $default = null)
  * @method static \Illuminate\Contracts\Pagination\LengthAwarePaginator paginate(int|null $perPage = null, array $columns = ['*'], string $pageName = 'page', int|null $page = null)
+ * @method static \Illuminate\Contracts\Pagination\Paginator cursorPaginate($perPage = null, $columns = ['*'], $cursorName = 'cursor', $cursor = null)
+ * @method static \Illuminate\Contracts\Pagination\Paginator simplePaginate($perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
+ * @method static \Illuminate\Database\Eloquent\Collection|static[] get($columns = ['*'])
+ * @method static \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|static[]|static|null find($id, $columns = ['*'])
+ * @method static \Illuminate\Database\Eloquent\Model|object|static|null first($columns = ['*'])
+ * @method static \Illuminate\Database\Eloquent\Model|object|static|null sole($columns = ['*'])
+ * @method static \Illuminate\Support\Collection chunkMap(callable $callback, $count = 1000)
+ * @method static \Illuminate\Support\Collection pluck($column, $key = null)
+ * @method static boolean chunk($count, callable $callback)
+ * @method static integer decrement($column, $amount = 1, array $extra = [])
+ * @method static integer increment($column, $amount = 1, array $extra = [])
+ * @method static integer update(array $values)
+ * @method static integer upsert(array $values, $uniqueBy, $update = null)
+ * @method static mixed delete()
+ * @method static mixed value($column)
  */
 class Model extends \Illuminate\Database\Eloquent\Model
 {
