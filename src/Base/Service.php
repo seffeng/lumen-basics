@@ -140,15 +140,40 @@ class Service
      * @author zxf
      * @date    2020年6月8日
      * @param  array $item
+     * @param  bool $isCamel
      * @return array
      */
-    public function filterByFillable(array $item)
+    public function filterByFillable(array $item, bool $isCamel = false)
     {
         if ($this->getFillable()) foreach ($item as $key => $val) {
             if (!in_array($key, $this->getFillable())) {
                 unset($item[$key], $val);
             }
         }
+        if ($isCamel) {
+            return $this->key2camel($item);
+        }
         return $item;
+    }
+
+    /**
+     *
+     * @author zxf
+     * @date   2021年12月1日
+     * @param array $items
+     * @return array
+     */
+    public function key2camel(array $items)
+    {
+        $data = [];
+        foreach ($items as $key => $val) {
+            $k = lcfirst(Str::studly($key));
+            if (is_array($val)) {
+                $data[$k] = $this->key2camel($val);
+            } else {
+                $data[$k] = $val;
+            }
+        }
+        return $data;
     }
 }
