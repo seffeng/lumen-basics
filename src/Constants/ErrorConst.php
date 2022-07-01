@@ -104,12 +104,14 @@ class ErrorConst
      * @date    2019年10月28日
      * @param mixed $data
      * @param string $message
+     * @param  int $code
      * @return array
      */
-    public static function responseSuccess($data = [], string $message = 'success')
+    public static function responseSuccess($data = [], string $message = 'success', int $code = null)
     {
         return [
             'status' => 'success',
+            'code' => is_null($code) ? static::NOT : $code,
             'data' => (is_null($data) || (is_array($data) && count($data) === 0)) ? new \stdClass() : $data,
             'message' => $message,
         ];
