@@ -45,7 +45,7 @@ class Service
     {
         return [
             'totalCount' => $totalCount,
-            'currentPage' => 0,
+            'currentPage' => 1,
             'pageCount' => $totalCount > $pageSize ? (ceil($totalCount / $pageSize) - 1) : 0,
             'perPage' => $pageSize,
         ];
