@@ -37,8 +37,8 @@ class Service
      *
      * @author zxf
      * @date   2020年4月30日
-     * @param int $totalCount
-     * @param int $pageSize
+     * @param integer $totalCount
+     * @param integer $pageSize
      * @return array ['totalCount' => '剩余总数(含当前页)', 'currentPage' => '当前页(无意义)', 'pageCount' => '剩余页数', 'perPage' => '每次加载数']
      */
     public function calculatePaginate(int $totalCount, int $pageSize)
@@ -77,7 +77,7 @@ class Service
      *
      * @author zxf
      * @date   2020年4月30日
-     * @param  int $length
+     * @param  integer $length
      * @param  bool $diff   区分大小写
      * @return string
      */
@@ -90,7 +90,7 @@ class Service
      *
      * @author zxf
      * @date   2020年4月30日
-     * @param  int $length
+     * @param  integer $length
      * @return string
      */
     public function generateNumberCode(int $length)
@@ -102,7 +102,7 @@ class Service
      *
      * @author zxf
      * @date   2020年4月30日
-     * @param  int $length
+     * @param  integer $length
      * @param  bool $diff   区分大小写
      * @return string
      */

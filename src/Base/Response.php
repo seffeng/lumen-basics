@@ -115,7 +115,7 @@ class Response
      *
      * @author zxf
      * @date    2020年6月22日
-     * @param  int $status
+     * @param  integer $status
      * @return \Seffeng\Basics\Base\Response
      */
     public function setStatus(int $status)
@@ -128,7 +128,7 @@ class Response
      *
      * @author zxf
      * @date   2020年6月22日
-     * @return number
+     * @return integer
      */
     public function getStatus()
     {

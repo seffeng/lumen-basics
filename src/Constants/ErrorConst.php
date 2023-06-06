@@ -104,7 +104,7 @@ class ErrorConst
      * @date    2019年10月28日
      * @param mixed $data
      * @param string $message
-     * @param  int $code
+     * @param  integer $code
      * @return array
      */
     public static function responseSuccess($data = [], string $message = 'success', int $code = null)
@@ -123,7 +123,7 @@ class ErrorConst
      * @date    2019年10月28日
      * @param  string $message
      * @param  mixed $data
-     * @param  int|string $code
+     * @param  integer|string $code
      * @return array
      */
     public static function responseError(string $message, $data = [], $code = null)

@@ -26,7 +26,7 @@ class Controller extends BaseController
      * @param  array $data
      * @param  string $message
      * @param  array $headers
-     * @param  int $code
+     * @param  integer $code
      * @return \Illuminate\Http\JsonResponse
      */
     public function responseSuccess($data = [], string $message = 'success', array $headers = [], int $code = null)
@@ -42,7 +42,7 @@ class Controller extends BaseController
      * @date    2019年11月06日
      * @param  string $message
      * @param  array $data
-     * @param  int $code
+     * @param  integer $code
      * @param  array $headers
      * @return \Illuminate\Http\JsonResponse
      */
