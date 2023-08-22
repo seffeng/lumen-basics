@@ -135,4 +135,17 @@ class ErrorConst
             'message' => $message,
         ];
     }
+
+    /**
+     *
+     * @author zxf
+     * @date   2023-08-22
+     * @param  array $headers
+     * @param  array $customHeaders
+     * @return array
+     */
+    public static function mergeHeaders(array $headers = [], array $customHeaders = [])
+    {
+        return Arr::merge($headers, $customHeaders);
+    }
 }

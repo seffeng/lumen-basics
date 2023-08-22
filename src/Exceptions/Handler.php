@@ -9,6 +9,7 @@ use Throwable;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
 use Seffeng\Basics\Constants\ErrorConst;
 use Seffeng\Basics\Base\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -84,6 +85,9 @@ class Handler extends ExceptionHandler
             ] : [];
 
             if ($this->isHttpException($e)) {
+                /**
+                 * @var HttpException $e
+                 */
                 $errorCode = $e->getStatusCode() > 0 ? $e->getStatusCode() : $this->errorClass::DEFAULT;
             } else {
                 $errorCode = $e->getCode() > 0 ? $e->getCode() : $this->errorClass::DEFAULT;
@@ -95,7 +99,7 @@ class Handler extends ExceptionHandler
             }
 
             $response = new Response();
-            return $response->setContent($data)->send();
+            return $response->setContent($data)->setHeaders($this->errorClass::mergeHeaders())->send();
         } else {
             return parent::render($request, $e);
         }

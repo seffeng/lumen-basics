@@ -5,6 +5,7 @@
  */
 namespace Seffeng\Basics\Base;
 
+use Illuminate\Support\Facades\Log;
 use Laravel\Lumen\Routing\Controller as BaseController;
 use Seffeng\Basics\Constants\ErrorConst;
 use Seffeng\Basics\Exceptions\BaseException;
@@ -122,6 +123,7 @@ class Controller extends BaseController
                 'line' => $e->getLine(),
             ] : []);
 
+        Log::error($e->getMessage(), ['code' => $e->getCode(), 'file' => $e->getFile(), 'line' => $e->getLine()]);
         return $response->setContent($data)->setHeaders($headers)->send();
     }
 }
